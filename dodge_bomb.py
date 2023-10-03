@@ -49,7 +49,6 @@ def main():
             if event.type == pg.QUIT: 
                 return
 
-
         if kk_rct.colliderect(bd_rct):  # 練習５：ぶつかってたら
             print("ゲームオーバー")
             return
@@ -97,10 +96,7 @@ def main():
         
         avx, avy = vx*accs[min(tmr//500, 9)], vy*accs[min(tmr//500, 9)]
         bd_rct.move_ip(avx, avy)
-
-    
         screen.blit(bd_img, bd_rct)  # 練習１：Rectを使って試しにblit
-
 
         pg.display.update()
         tmr += 1
