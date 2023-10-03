@@ -12,9 +12,9 @@ delta = {  # 練習３：移動量辞書
 
 def check_bound(obj_rct: pg.Rect):
     """
-    引数：こうかとんRectかばくだんRect
+    引数:こうかとんRectかばくだんRect
     戻り値：タプル（横方向判定結果，縦方向判定結果）
-    画面内ならTrue，画面外ならFalse
+    画面内ならTrue,画面外ならFalse
     """
     yoko, tate = True, True
     if obj_rct.left < 0 or WIDTH < obj_rct.right: # 横方向判定
@@ -52,7 +52,6 @@ def main():
         if kk_rct.colliderect(bd_rct):  # 練習５：ぶつかってたら
             print("ゲームオーバー")
             return
-
         screen.blit(bg_img, [0, 0])
 
         """こうかとん"""
