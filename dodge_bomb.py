@@ -30,7 +30,9 @@ def main():
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
     kk_rct = kk_img.get_rect()
-    kk_rct.center = (900, 400)  # 練習３：こうかとんの初期座標を設定する
+    x, y = random.randint(0, WIDTH), random.randint(0, HEIGHT)
+    kk_rct.center = (x, y)  # 練習３：こうかとんの初期座標を設定する
+                            #　演習5：こうかとんの初期位置をランダムに設定する
     """ばくだん"""
     accs = [a for a in range(1, 11)]
     bd_img = pg.Surface((20, 20))  # 練習１：爆弾Surfaceを作成する
