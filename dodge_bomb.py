@@ -1,6 +1,7 @@
 import random
 import sys
 import pygame as pg
+import math
 WIDTH, HEIGHT = 1600, 900
 delta = {  # 練習３：移動量辞書
     pg.K_UP: (0, -5),
@@ -8,8 +9,6 @@ delta = {  # 練習３：移動量辞書
     pg.K_LEFT: (-5, 0),
     pg.K_RIGHT: (+5, 0),
 }
-
-
 
 def check_bound(obj_rct: pg.Rect):
     """
@@ -67,21 +66,40 @@ def main():
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1]) 
         screen.blit(kk_img, kk_rct)  # 練習３：移動後の座標に表示させる
         """"ばくだん"""
+
+        vector_x = kk_rct.centerx - bd_rct.centerx
+        vector_y = kk_rct.centery - bd_rct.centery
+
+        # ベクトルの長さを求める
+        vector_length = math.sqrt(vector_x ** 2 + vector_y ** 2)
+
+        # ベクトルを正規化する
+        if vector_length != 0:
+            normalized_vector_x = vector_x / vector_length
+            normalized_vector_y = vector_y / vector_length
+        else:
+            normalized_vector_x, normalized_vector_y = 0, 0
+
+        # 500未満の距離であれば、慣性を持たせる
+        if vector_length < 500:
+            avx, avy = vx * normalized_vector_x, vy * normalized_vector_y
+        else:
+            avx, avy = 0, 0
+        
         #bd_rct.move_ip(vx, vy)  # 練習２：爆弾を移動させる
         yoko, tate = check_bound(bd_rct)
         if not yoko:  # 練習４：横方向にはみ出たら
             vx *= -1
         if not tate:  # 練習４：縦方向にはみ出たら
             vy *= -1
-
-        
         
         avx, avy = vx*accs[min(tmr//500, 9)], vy*accs[min(tmr//500, 9)]
         bd_rct.move_ip(avx, avy)
 
     
         screen.blit(bd_img, bd_rct)  # 練習１：Rectを使って試しにblit
-        
+
+
         pg.display.update()
         tmr += 1
         clock.tick(50)
