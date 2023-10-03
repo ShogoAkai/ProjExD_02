@@ -8,6 +8,9 @@ delta = {  # 練習３：移動量辞書
     pg.K_LEFT: (-5, 0),
     pg.K_RIGHT: (+5, 0),
 }
+
+
+
 def check_bound(obj_rct: pg.Rect):
     """
     引数：こうかとんRectかばくだんRect
@@ -30,6 +33,7 @@ def main():
     kk_rct = kk_img.get_rect()
     kk_rct.center = (900, 400)  # 練習３：こうかとんの初期座標を設定する
     """ばくだん"""
+    accs = [a for a in range(1, 11)]
     bd_img = pg.Surface((20, 20))  # 練習１：爆弾Surfaceを作成する
     bd_img.set_colorkey((0, 0, 0))  # 練習１：黒い部分を透明にする
     pg.draw.circle(bd_img, (255, 0, 0), (10, 10), 10)
@@ -43,12 +47,14 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
-            
-        if kk_rct.colliderect(bd_rct):
+
+
+        if kk_rct.colliderect(bd_rct):  # 練習５：ぶつかってたら
             print("ゲームオーバー")
             return
-            
+
         screen.blit(bg_img, [0, 0])
+
         """こうかとん"""
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
@@ -61,14 +67,21 @@ def main():
             kk_rct.move_ip(-sum_mv[0], -sum_mv[1]) 
         screen.blit(kk_img, kk_rct)  # 練習３：移動後の座標に表示させる
         """"ばくだん"""
-        bd_rct.move_ip(vx, vy)  # 練習２：爆弾を移動させる
+        #bd_rct.move_ip(vx, vy)  # 練習２：爆弾を移動させる
         yoko, tate = check_bound(bd_rct)
         if not yoko:  # 練習４：横方向にはみ出たら
             vx *= -1
         if not tate:  # 練習４：縦方向にはみ出たら
             vy *= -1
-        screen.blit(bd_img, bd_rct)  # 練習１：Rectを使って試しにblit
 
+        
+        
+        avx, avy = vx*accs[min(tmr//500, 9)], vy*accs[min(tmr//500, 9)]
+        bd_rct.move_ip(avx, avy)
+
+    
+        screen.blit(bd_img, bd_rct)  # 練習１：Rectを使って試しにblit
+        
         pg.display.update()
         tmr += 1
         clock.tick(50)
